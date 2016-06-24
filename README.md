@@ -35,7 +35,7 @@ randomized, property-based testing (QuickChecking) of lattices and
 lattice operations.  It is furthermore described in the paper
 
     QuickChecking Static Analysis Properties
-    Jan Midtgaard and Anders MÃÂ¸ller, ICST'15
+    Jan Midtgaard and Anders M�ller, ICST'15
     http://janmidtgaard.dk/papers/Midtgaard-Moeller:ICST15.pdf  
 
 
@@ -64,10 +64,10 @@ Now try analyzing a simple program consisting of one processes. The
 process reads a value from channel 1 and assigns the obtained value to
 the variable 'y':
 
-  # Analyzer.Intanalyzer.eval_future_top (Ast.Chread (1,"y"));;
-
-                               ([], Top*)
-1? y;                              ([y -> [-oo;+oo]], Top*) 
+    # Analyzer.Intanalyzer.eval_future_top (Ast.Chread (1,"y"));;
+    
+                                   ([], Top*)
+    1? y;                              ([y -> [-oo;+oo]], Top*) 
 
 
 which says:
@@ -81,11 +81,11 @@ which says:
 We can write the same example as a string and have it parsed up and
 analyzed by Main.eval_str_pp:
 
-  # Future.eval_str "spawn p() { ch?y }";;
-
-ch -> 0
-                               ([], Top*)
-0? y;                              ([y -> [-oo;+oo]], Top*) 
+    # Future.eval_str "spawn p() { ch?y }";;
+    
+    ch -> 0
+                                   ([], Top*)
+    0? y;                              ([y -> [-oo;+oo]], Top*) 
 
 which says that the channel named 'ch' in the source program has been
 numbered '0' for analysis purposes (and otherwise yields the same as
