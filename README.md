@@ -100,10 +100,10 @@ described as the complement of the above: ~(ch![-oo;+oo] . Top*) We
 can now analyze the process against this policy, using the supplied
 regular expression parser:
 
-  # Future.eval_str_policy "spawn p() { ch?y }" "~(ch![-oo;+oo] . Top*)";;
-
-                              ([], ¬(!([0;0], [-oo;+oo]) · Top*))
-0? y;                              (Bot, Ø) 
+    # Future.eval_str_policy "spawn p() { ch?y }" "~(ch![-oo;+oo] . Top*)";;
+    
+                                  ([], ¬(!([0;0], [-oo;+oo]) · Top*))
+    0? y;                              (Bot, Ø) 
 
 which says that a read from channel 0 (the number for 'ch') gets us to
 a bottom state -- a dead state.
@@ -112,55 +112,55 @@ a bottom state -- a dead state.
 
 To re-run the first example from the paper's introduction (the server):
 
-   # Future.eval_proc (snd (Ast.highscore 0));;
-
-ask -> 0
-hsc -> 1
-report -> 2
-
-                              ([], Top*)
-highscore = 0;                              ([highscore -> [0;0]], Top*)
-while (true) {
-  choose {
-    0? cid;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
-    1! highscore;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
-  } | {
-    2? new;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
-    if (highscore < new)
-    then {
-      highscore = new;                              ([cid -> [-oo;+oo]; highscore -> [1;+oo]; new -> [1;+oo]], Top*)
-    } else {
-      skip;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
-    }                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
-  }
-}                              (Bot, Top*) 
+    # Future.eval_proc (snd (Ast.highscore 0));;
+    
+    ask -> 0
+    hsc -> 1
+    report -> 2
+    
+                                  ([], Top*)
+    highscore = 0;                              ([highscore -> [0;0]], Top*)
+    while (true) {
+      choose {
+        0? cid;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
+        1! highscore;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
+      } | {
+        2? new;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
+        if (highscore < new)
+        then {
+          highscore = new;                              ([cid -> [-oo;+oo]; highscore -> [1;+oo]; new -> [1;+oo]], Top*)
+        } else {
+          skip;                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
+        }                              ([cid -> [-oo;+oo]; highscore -> [0;+oo]; new -> [-oo;+oo]], Top*)
+      }
+    }                              (Bot, Top*) 
 
 
 
 To re-run the second example from the paper's introduction (the client):
 
-   # Future.eval_proc_policy (snd (Ast.highscore 0)) "(ask![0;+oo] + report![0;+oo] . hsc?[-oo;+oo])*";;
-
-ask -> 0
-hsc -> 2
-report -> 1
-
-                              ([], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
-highscore = 0;                              ([highscore -> [0;0]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
-while (true) {
-  choose {
-    0? cid;                              ([cid -> [0;+oo]; highscore -> [0;+oo]; new -> [0;+oo]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
-    2! highscore;                              (Bot, Ø)
-  } | {
-    1? new;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
-    if (highscore < new)
-    then {
-      highscore = new;                              ([highscore -> [1;+oo]; new -> [1;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
-    } else {
-      skip;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
-    }                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
-  }
-}                              (Bot, ((?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*) + (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+    # Future.eval_proc_policy (snd (Ast.highscore 0)) "(ask![0;+oo] + report![0;+oo] . hsc?[-oo;+oo])*";;
+    
+    ask -> 0
+    hsc -> 2
+    report -> 1
+    
+                                  ([], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
+    highscore = 0;                              ([highscore -> [0;0]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
+    while (true) {
+      choose {
+        0? cid;                              ([cid -> [0;+oo]; highscore -> [0;+oo]; new -> [0;+oo]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
+        2! highscore;                              (Bot, Ø)
+      } | {
+        1? new;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+        if (highscore < new)
+        then {
+          highscore = new;                              ([highscore -> [1;+oo]; new -> [1;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+        } else {
+          skip;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+        }                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+      }
+    }                              (Bot, ((?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*) + (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
 
 
 
