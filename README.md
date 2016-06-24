@@ -35,7 +35,7 @@ randomized, property-based testing (QuickChecking) of lattices and
 lattice operations.  It is furthermore described in the paper
 
     QuickChecking Static Analysis Properties
-    Jan Midtgaard and Anders Møller, ICST'15
+    Jan Midtgaard and Anders MÃ¸ller, ICST'15
     http://janmidtgaard.dk/papers/Midtgaard-Moeller:ICST15.pdf  
 
 
@@ -102,8 +102,8 @@ regular expression parser:
 
     # Future.eval_str_policy "spawn p() { ch?y }" "~(ch![-oo;+oo] . Top*)";;
     
-                                  ([], ¬(!([0;0], [-oo;+oo]) · Top*))
-    0? y;                              (Bot, Ø) 
+                                  ([], Â¬(!([0;0], [-oo;+oo]) Â· Top*))
+    0? y;                              (Bot, Ã˜) 
 
 which says that a read from channel 0 (the number for 'ch') gets us to
 a bottom state -- a dead state.
@@ -145,22 +145,22 @@ To re-run the second example from the paper's introduction (the client):
     hsc -> 2
     report -> 1
     
-                                  ([], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
-    highscore = 0;                              ([highscore -> [0;0]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
+                                  ([], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*)
+    highscore = 0;                              ([highscore -> [0;0]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*)
     while (true) {
       choose {
-        0? cid;                              ([cid -> [0;+oo]; highscore -> [0;+oo]; new -> [0;+oo]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*)
-        2! highscore;                              (Bot, Ø)
+        0? cid;                              ([cid -> [0;+oo]; highscore -> [0;+oo]; new -> [0;+oo]], (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*)
+        2! highscore;                              (Bot, Ã˜)
       } | {
-        1? new;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+        1? new;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) Â· (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*))
         if (highscore < new)
         then {
-          highscore = new;                              ([highscore -> [1;+oo]; new -> [1;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+          highscore = new;                              ([highscore -> [1;+oo]; new -> [1;+oo]], (?([2;2], [-oo;+oo]) Â· (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*))
         } else {
-          skip;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
-        }                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+          skip;                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) Â· (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*))
+        }                              ([highscore -> [0;+oo]; new -> [0;+oo]], (?([2;2], [-oo;+oo]) Â· (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*))
       }
-    }                              (Bot, ((?([2;2], [-oo;+oo]) · (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*) + (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) · ?([2;2], [-oo;+oo])))*))
+    }                              (Bot, ((?([2;2], [-oo;+oo]) Â· (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*) + (!([0;0], [0;+oo]) + (!([1;1], [0;+oo]) Â· ?([2;2], [-oo;+oo])))*))
 
 
 
