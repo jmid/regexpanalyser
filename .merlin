@@ -1,0 +1,5 @@
+# source code paths
+S src
+
+# build path
+B _build/src

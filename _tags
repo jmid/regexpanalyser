@@ -1,0 +1,9 @@
+true: -traverse, use_menhir
+<src>: traverse
+<src/main.byte> : package(unix)
+<src/main.top>  : package(unix)
+<src/future.byte> : package(unix)
+<src/future.top>  : package(unix)
+<src/whiletokens.mly> : unused_tokens
+<src/whiletokens.mlypack> : only_tokens
+<src/whileparser.mlypack> : external_tokens(Whiletokens)
